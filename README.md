@@ -14,52 +14,23 @@ Go v1.6+
 
 ## USAGE
 ```
-fdlr
-file downloader written in Go
-
-Usage:
-fdlr [command]
-
-Available Commands:
-  download    downloads a file from URL or file name
-  help        Help about any command
-  resume      resume downloading task
-  task        show current downloading task
-  version     prints meta info
-
-Flags:
-  -h, --help   help for ./bin/fdlr
-
-Use "./bin/fdlr [command] --help" for more information about a command.
+fdlr download -c=3 https://download.jetbrains.com/go/goland-2020.2.2.dmg
+Downloading IP is: 52.50.241.213 | 54.72.98.183
+Start downloading with 3 connections 
+Download target size: 398.9 MB
+goland-2020.2.2.dmg - 0 1.73 MiB / 132.97 MiB    1.30% 04m41s                                          
+goland-2020.2.2.dmg - 1 732.32 KiB / 132.97 MiB    0.54% 11m27s                                        
+goland-2020.2.2.dmg - 2 1005.57 KiB / 132.97 MiB    0.74% 08m19s                                       
+Interrupted, saving state ... 
+Saving states data in /Users/xxx/.fdlr/goland-2020.2.2.dmg
 ```
 
 ```
-fdlr download -h
-downloads a file from URL or file name
-
-Usage:
-  ./bin/fdlr download [flags]
-
-Examples:
-fdlr download [-c=goroutines_count] URL
-
-Flags:
-  -c, --goroutines count int   default is your CPU threads count (default 4)
-  -h, --help                   help for download
-```
-
-```
-fdlr resume -h
-resume downloading task
-
-Usage:
-  ./bin/fdlr resume [flags]
-
-Examples:
-fdlr resume URL or file name
-
-Flags:
-  -h, --help   help for resume
+fdlr resume https://download.jetbrains.com/go/goland-2020.2.2.dmg
+Reading state from /Users/xxx/.fdlr/goland-2020.2.2.dmg/state.yaml
+goland-2020.2.2.dmg - 0 510.94 KiB / 131.23 MiB    0.38% 19m58s                                        
+goland-2020.2.2.dmg - 1 489.65 KiB / 131.98 MiB    0.36% 20m57s                                        
+goland-2020.2.2.dmg - 2 1.20 MiB / 132.25 MiB    0.91% 08m19s
 ```
 
 ## Inspired
