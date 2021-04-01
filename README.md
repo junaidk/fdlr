@@ -12,7 +12,7 @@ Download file in Golang
 ## Requires
 Go v1.6+
 
-## USAGE
+## Example
 ```
 fdlr download -c=3 https://download.jetbrains.com/go/goland-2020.2.2.dmg
 Downloading IP is: 52.50.241.213 | 54.72.98.183
