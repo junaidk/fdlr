@@ -1,6 +1,8 @@
 Download file in Golang
 ==================
 
+[![Build Status](https://github.com/Imputes/fdlr/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/Imputes/fdlr/actions)
+
 ## Featues:
 * skip TLS checking
 * download batches of files concurrently
