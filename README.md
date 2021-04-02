@@ -14,7 +14,7 @@ Go v1.6+
 
 ## Example
 ```
-fdlr download -c=3 https://download.jetbrains.com/go/goland-2020.2.2.dmg
+$ fdlr download -c=3 https://download.jetbrains.com/go/goland-2020.2.2.dmg
 Downloading IP is: 52.50.241.213 | 54.72.98.183
 Start downloading with 3 connections 
 Download target size: 398.9 MB
@@ -26,7 +26,7 @@ Saving states data in /Users/xxx/.fdlr/goland-2020.2.2.dmg
 ```
 
 ```
-fdlr resume https://download.jetbrains.com/go/goland-2020.2.2.dmg
+$ fdlr resume https://download.jetbrains.com/go/goland-2020.2.2.dmg
 Reading state from /Users/xxx/.fdlr/goland-2020.2.2.dmg/state.yaml
 goland-2020.2.2.dmg - 0 510.94 KiB / 131.23 MiB    0.38% 19m58s                                        
 goland-2020.2.2.dmg - 1 489.65 KiB / 131.98 MiB    0.36% 20m57s                                        
