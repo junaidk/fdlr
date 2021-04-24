@@ -29,7 +29,6 @@ type DownloadRange struct {
 
 func (state *State) Save() error {
 	// make file Folder, to save all downloaded parts and state.yaml
-	// note: only work in *nix OS
 	folder, err := GetFolderFrom(state.URL)
 	if err != nil {
 		return errors.WithStack(err)
