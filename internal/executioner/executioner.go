@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func Do(url string, state *tool.State, conc int) error {
+func Do(url, username, password string, state *tool.State, conc int) error {
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan,
 		syscall.SIGHUP,
@@ -37,7 +37,7 @@ func Do(url string, state *tool.State, conc int) error {
 	var err error
 
 	if state == nil {
-		dlr, err = downloader.NewHTTPDownloader(url, conc)
+		dlr, err = downloader.NewHTTPDownloader(url, conc, username, password)
 		if err != nil {
 			return errors.WithStack(err)
 		}
@@ -49,6 +49,8 @@ func Do(url string, state *tool.State, conc int) error {
 			SkipTLS:        true,
 			DownloadRanges: state.DownloadRanges,
 			Resumable:      true,
+			Username:       username,
+			Password:       password,
 		}
 	}
 

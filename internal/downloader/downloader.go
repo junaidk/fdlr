@@ -2,6 +2,7 @@ package downloader
 
 import (
 	"crypto/tls"
+	"encoding/base64"
 	"fmt"
 	"io"
 	"net"
@@ -43,9 +44,11 @@ type HTTPDownloader struct {
 	SkipTLS        bool
 	DownloadRanges []tool.DownloadRange
 	Resumable      bool
+	Username       string
+	Password       string
 }
 
-func NewHTTPDownloader(url string, par int) (*HTTPDownloader, error) {
+func NewHTTPDownloader(url string, par int, username, password string) (*HTTPDownloader, error) {
 	resumable := true
 
 	parsed, err := stdurl.Parse(url)
@@ -64,6 +67,16 @@ func NewHTTPDownloader(url string, par int) (*HTTPDownloader, error) {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, errors.WithStack(err)
+	}
+
+	if username != "" && password != "" {
+
+		req.SetBasicAuth(username, password)
+		client.CheckRedirect = func(req *http.Request, via []*http.Request) error {
+			req.SetBasicAuth(username, password)
+			return nil
+		}
+
 	}
 
 	resp, err := client.Do(req)
@@ -110,6 +123,8 @@ func NewHTTPDownloader(url string, par int) (*HTTPDownloader, error) {
 	ret.IPs = ipstr
 	ret.SkipTLS = skipTLS
 	ret.DownloadRanges, err = partCalculate(int64(par), len, url)
+	ret.Username = username
+	ret.Password = password
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -195,6 +210,14 @@ func (d *HTTPDownloader) Downloading(doneChan chan bool, fileChan chan string, e
 				return
 			}
 
+			if d.Username != "" && d.Password != "" {
+				req.SetBasicAuth(d.Username, d.Password)
+				client.CheckRedirect = func(req *http.Request, via []*http.Request) error {
+					req.SetBasicAuth(d.Username, d.Password)
+					return nil
+				}
+			}
+
 			if d.Part > 1 {
 				req.Header.Add("Range", ranges)
 				if err != nil {
@@ -265,4 +288,14 @@ func (d *HTTPDownloader) Downloading(doneChan chan bool, fileChan chan string, e
 	}
 
 	doneChan <- true
+}
+
+func basicAuth(username, password string) string {
+	auth := username + ":" + password
+	return base64.StdEncoding.EncodeToString([]byte(auth))
+}
+
+func redirectPolicyFunc(req *http.Request, via []*http.Request) error {
+	req.Header.Add("Authorization", "Basic "+basicAuth("username1", "password123"))
+	return nil
 }

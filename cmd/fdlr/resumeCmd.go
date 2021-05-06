@@ -12,6 +12,8 @@ import (
 
 func init() {
 	rootCmd.AddCommand(resumeCmd)
+	resumeCmd.Flags().StringVarP(&username, "username", "u", "", "default is empty")
+	resumeCmd.Flags().StringVarP(&password, "password", "p", "", "default is empty")
 }
 
 var resumeCmd = &cobra.Command{
@@ -36,5 +38,5 @@ func resumeTask(args []string) error {
 	if err != nil {
 		return errors.WithStack(err)
 	}
-	return executioner.Do(state.URL, state, conc)
+	return executioner.Do(state.URL, username, password, state, conc)
 }

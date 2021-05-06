@@ -14,16 +14,20 @@ import (
 )
 
 var conc int
+var username, password string
 
 func init() {
 	rootCmd.AddCommand(downloadCmd)
 	downloadCmd.Flags().IntVarP(&conc, "goroutines count", "c", runtime.NumCPU(), "default is your CPU threads count")
+	downloadCmd.Flags().StringVarP(&username, "username", "u", "", "default is empty")
+	downloadCmd.Flags().StringVarP(&password, "password", "p", "", "default is empty")
+
 }
 
 var downloadCmd = &cobra.Command{
 	Use:     "download",
 	Short:   "downloads a file from URL or file name",
-	Example: `fdlr download [-c=goroutines_count] URL`,
+	Example: `fdlr download [-c=goroutines_count, -u=username, -p=password] URL`,
 	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		errorHandle.ExitWithError(download(args))
@@ -46,5 +50,7 @@ func download(args []string) error {
 		}
 	}
 
-	return executioner.Do(args[0], nil, conc)
+	fmt.Printf("username: %s \npassowrd: %s \n", username, password)
+
+	return executioner.Do(args[0], username, password, nil, conc)
 }
